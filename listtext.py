@@ -1,1 +1,1 @@
-list = ("enters the battlefield")
+list = ["enters the battlefield", "Exile all", "Exile target", "Choose two", "Return target creature card", "This spell costs", "Counter target", "Search your library", "your opponents", "This spell be countered"]

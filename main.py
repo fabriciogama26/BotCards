@@ -23,7 +23,7 @@ class BotCards:
        
         navegador = webdriver.Firefox(options = options)
 
-        url = "https://scryfall.com/sets/bro?as=text&order=name"
+        url = "https://scryfall.com/search?as=full&order=name&q=set%3Abro&unique=prints"
 
         try:
 
@@ -60,16 +60,19 @@ class BotCards:
 
         try:
 
-            listcards = navegador.find_elements(by=By.PARTIAL_LINK_TEXT,value=list)
+            for i in navegador.find_elements(by=By.CLASS_NAME,value="card-profile"):
 
-            for i in listcards:
-                print(str(i.text))
-                with open("element.png", "wb") as elem_file:
-                    elem_file.write(i.screenshot_as_base64)
-                    elem_file.close()
+                texto = i.find_element(by=By.CLASS_NAME,value="card-text-oracle").text
 
+                for frase in list:
+                    if frase in texto:
 
-                
+                        img = i.find_element(by=By.CLASS_NAME,value="card-image-front")
+
+                        img.screenshot("image.png")
+
+                        break
+      
         except ValueError:
 
             navegador.quit()

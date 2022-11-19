@@ -155,7 +155,6 @@ cython_debug/
 # VS code
 .vscode/
 
-# drive
-geckodriver.exe
+
 
 
