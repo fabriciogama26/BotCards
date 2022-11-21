@@ -1,1 +1,2 @@
-list = ["enters the battlefield", "Exile all", "Exile target", "Choose two", "Return target creature card", "This spell costs", "Counter target", "Search your library", "your opponents", "This spell be countered"]
+list = ["enters the battlefield", "Exile all", "Players can’t cast", "Exile target", "Choose two", "Return target creature card",
+"This spell costs", "Counter target", "Search your library", "your opponents", "This spell be countered", "spells you cast cost"]
