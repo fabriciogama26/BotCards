@@ -18,9 +18,9 @@ class BotCards:
 
         global url
 
-        global namecards
+        global contador
 
-        namecards = []
+        contador = 0
 
         options = Options()
         options.headless = True
@@ -42,7 +42,6 @@ class BotCards:
         finally:
 
             navegador.quit()
- 
 
     def Conexao(self):
                   
@@ -54,6 +53,7 @@ class BotCards:
             requests.get(url, timeout=timeout)
             navegador.get(url)
             BotCards.CheckList(self)
+            BotCards.AbrirList(self)
             BotCards.ContPag(self)
             BotCards.ScrapWeb(self)
             BotCards.NumPag(self)
@@ -65,9 +65,9 @@ class BotCards:
             navegador.quit()
             BotCards.Conexao(self)
 
-    def ScrapWeb(self):   
+    def ScrapWeb(self): 
 
-        global namecard 
+        global contador  
 
         sleep(3)
 
@@ -77,20 +77,18 @@ class BotCards:
 
                 texto = i.find_element(by=By.CLASS_NAME,value="card-text-oracle").text
 
-                namecard = i.find_element(by=By.CLASS_NAME,value="card-text-card-name").text
+                contador = contador + 1
 
-                BotCards.CheckDados(self)
+                if contador > int(st):
                     
-                for frase in list:
-                    if frase in texto:
+                    for frase in list:
+                        if frase in texto:
 
-                        namecards.append(namecard)
+                            img = i.find_element(by=By.CLASS_NAME,value="card-image-front")
 
-                        img = i.find_element(by=By.CLASS_NAME,value="card-image-front")
+                            img.screenshot("image.png")
 
-                        img.screenshot("image.png")
-
-                        break
+                            break
 
                 
         except ValueError:
@@ -103,22 +101,17 @@ class BotCards:
         if not os.path.exists("cardslist.txt"):
 
             with open("cardslist.txt", "w") as dados:
+
+                dados.write("0")
+
                 dados.close()
 
-    def CheckDados(self):
+    def AbrirList(self):
+        global st
 
-        if not os.stat("cardslist.txt").st_size == 0:
+        with open("cardslist.txt") as pt:
+            st = pt.readline()
 
-            with open("cardslist.txt") as dados:
-
-                cd = dados.readlines()
-                
-                for card in cd:
-                    
-                    if str(card).strip() == namecard:
-                        break
-                    break
-                
 
     def NumPag(self):
 
@@ -132,7 +125,7 @@ class BotCards:
 
                 BotCards.ScrapWeb(self)
 
-            else:
+            else: 
 
                 for x in range(2,(int(pags)+1)):
 
@@ -158,9 +151,8 @@ class BotCards:
     def DataBase(self):
 
         with open("cardslist.txt", 'w') as cl:
-            for x in namecards:
-                cl.write(str(x))
-                cl.write('\n')
+
+            cl.write(str(contador))
             cl.close()
 
 
